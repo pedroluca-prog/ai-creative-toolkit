@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!--
+  deck-numeros-16-9 (1920x1080)
+  Slide com 3 números grandes (Bree Serif 80-90pt) + comparativo lateral. Para slide 6 ROI v2 e similares.
+  Props:
+    - eyebrow: linha pequena uppercase
+    - title: headline Bree Serif
+    - subhead: subtítulo Poppins
+    - pills[]: array de {num, label} para 3 números grandes (até 4)
+    - comparison: {leftNum, leftLabel, rightNum, rightLabel} comparativo de lotação opcional
+    - footnote: rodapé pequeno (cálculo, fonte, frase-âncora)
+    - handle: rodapé esquerda
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{googleFontsLink}}
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; }
+  body {
+    font-family: {{fontBody}};
+    background-color: {{bgDeep}};
+    color: #fff;
+    padding: 70px 80px 110px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 8% 18%, rgba(71,166,19,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 92% 88%, rgba(71,166,19,0.10) 0%, transparent 55%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'><path d='M24 4 L24 14 M24 34 L24 44 M4 24 L14 24 M34 24 L44 24' stroke='%2347a613' stroke-width='0.8' stroke-linecap='round' opacity='0.6'/><circle cx='24' cy='24' r='0.9' fill='%2347a613' opacity='0.5'/></svg>");
+    background-size: 48px 48px;
+    opacity: 0.10;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .bg-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.3) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .bg-symbol {
+    position: absolute;
+    right: -60px;
+    top: -50px;
+    width: 380px;
+    height: 380px;
+    background-image: url("{{logoSymbolPath}}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.20;
+    z-index: 1;
+    pointer-events: none;
+    transform: rotate(15deg);
+    filter: brightness(1.35);
+  }
+  .header, .pills-row, .comparison, .footer-row, .title-block {
+    position: relative;
+    z-index: 3;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .eyebrow {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: {{accentLight}};
+  }
+  .pageinfo {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+  }
+  .title {
+    font-family: {{fontDisplay}};
+    font-size: 54px;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    margin-top: 8px;
+  }
+  .subhead {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: rgba(255,255,255,0.82);
+    margin-top: 12px;
+    max-width: 1300px;
+  }
+  .pills-row {
+    display: grid;
+    grid-template-columns: repeat({{pillsCount}}, 1fr);
+    gap: 28px;
+    flex: 1;
+    align-content: center;
+    margin: auto 0;
+  }
+  .pills-row.cols-3 .pill .num { font-size: 80px; }
+  .pills-row.cols-4 .pill .num { font-size: 56px; }
+  .pill {
+    text-align: left;
+    padding-right: 24px;
+    border-right: 1px solid rgba(255,255,255,0.18);
+    overflow: hidden;
+  }
+  .pill:last-child { border-right: none; }
+  .pill .num {
+    font-family: {{fontDisplay}};
+    font-size: 80px;
+    line-height: 0.95;
+    color: {{accentLight}};
+    margin-bottom: 14px;
+    letter-spacing: -1px;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pill .num.editable-derived {
+    background: rgba(255, 248, 220, 0.94);
+    color: #1B1F14;
+    padding: 4px 14px;
+    border: 2px dashed {{amber}};
+    border-radius: 8px;
+    display: inline-block;
+    font-size: 50px;
+    white-space: nowrap;
+  }
+  .pill .label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.4;
+  }
+  .comparison {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    padding: 22px 28px;
+    background: rgba(0,0,0,0.18);
+    border-radius: 14px;
+    border: 1px solid rgba(71,166,19,0.30);
+    flex-wrap: wrap;
+  }
+  .comparison .side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .comparison .num {
+    font-family: {{fontDisplay}};
+    font-size: 38px;
+    line-height: 1;
+  }
+  .comparison .num.left { color: #c75c2c; }
+  .comparison .num.right { color: {{accentLight}}; }
+  .comparison .label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
+  }
+  .comparison .vs {
+    font-family: {{fontBody}};
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .comparison .desc {
+    flex: 1;
+    text-align: left;
+    font-size: 18px;
+    color: rgba(255,255,255,0.85);
+    max-width: 500px;
+  }
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .footnote {
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.62);
+    max-width: 1100px;
+    flex: 1;
+    padding-right: 24px;
+  }
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1px;
+  }
+  .footer-right .logo {
+    height: 44px;
+    opacity: 0.92;
+  }
+  .badge-provisorio {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    background: #c75c2c;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    z-index: 5;
+    display: {{provisorioDisplay}};
+  }
+</style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="bg-symbol"></div>
+  <div class="bg-pattern"></div>
+  <div class="bg-vignette"></div>
+  <div class="badge-provisorio">{{provisorioLabel}}</div>
+  <div class="header">
+    <div>
+      <div class="eyebrow">{{eyebrow}}</div>
+      <div class="title">{{title}}</div>
+      <div class="subhead">{{subhead}}</div>
+    </div>
+    <div class="pageinfo">{{pageInfo}}</div>
+  </div>
+  <div class="title-block"></div>
+  <div class="pills-row cols-{{pillsCount}}">{{pillsHtml}}</div>
+  <div class="comparison">{{comparisonHtml}}</div>
+  <div class="footer-row">
+    <div class="footnote">{{footnote}}</div>
+    <div class="footer-right">
+      <span>{{handle}}</span>
+      <img class="logo" src="{{logoPath}}" alt="">
+    </div>
+  </div>
+</body>
+</html>

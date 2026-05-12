@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{googleFontsLink}}
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; }
+  body {
+    font-family: {{fontBody}};
+    background: {{bgDeep}};
+    color: #fff;
+    padding: 120px 90px 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 36px;
+    position: relative;
+    text-align: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 12% 15%, rgba(71,166,19,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 55% at 90% 92%, rgba(71,166,19,0.10) 0%, transparent 55%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'><path d='M24 4 L24 14 M24 34 L24 44 M4 24 L14 24 M34 24 L44 24' stroke='%2347a613' stroke-width='0.8' stroke-linecap='round' opacity='0.6'/><circle cx='24' cy='24' r='0.9' fill='%2347a613' opacity='0.5'/></svg>");
+    background-size: 48px 48px;
+    opacity: 0.10;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .bg-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .bg-symbol {
+    position: absolute;
+    right: -50px;
+    top: -40px;
+    width: 320px;
+    height: 320px;
+    background-image: url("{{logoSymbolPath}}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.28;
+    z-index: 1;
+    pointer-events: none;
+    transform: rotate(15deg);
+    filter: brightness(1.35);
+  }
+  .eyebrow, .title, .body, .cta-card, .footer {
+    position: relative;
+    z-index: 3;
+  }
+  .eyebrow {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: {{accentLight}};
+  }
+  .title {
+    font-family: {{fontDisplay}};
+    font-size: 70px;
+    line-height: 1.08;
+    max-width: 900px;
+  }
+  .body {
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 1.35;
+    color: rgba(255,255,255,0.9);
+    max-width: 820px;
+  }
+  .cta-card {
+    margin-top: 20px;
+    padding: 34px 46px;
+    border: 1.5px solid {{accent}};
+    background: rgba(71,166,19,0.12);
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .cta-label {
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: {{accentLight}};
+    font-weight: 600;
+  }
+  .cta-value {
+    font-family: {{fontDisplay}};
+    font-size: 42px;
+    color: #fff;
+  }
+  .footer {
+    position: absolute;
+    left: 80px;
+    right: 80px;
+    bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .handle { font-size: 18px; color: rgba(255,255,255,0.7); letter-spacing: 1px; }
+  .page-num { font-size: 16px; font-weight: 600; letter-spacing: 2px; color: rgba(255,255,255,0.7); }
+  .logo { height: 60px; opacity: 0.95; }
+</style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="bg-symbol"></div>
+  <div class="bg-pattern"></div>
+  <div class="bg-vignette"></div>
+  <div class="eyebrow">{{eyebrow}}</div>
+  <div class="title">{{title}}</div>
+  <div class="body">{{body}}</div>
+  <div class="cta-card">
+    <div class="cta-label">{{ctaLabel}}</div>
+    <div class="cta-value">{{ctaValue}}</div>
+  </div>
+  <div class="footer">
+    <div class="handle">{{handle}}</div>
+    <div class="page-num">{{pageNum}} / {{pageTotal}}</div>
+    <img class="logo" src="{{logoPath}}" alt="">
+  </div>
+</body>
+</html>

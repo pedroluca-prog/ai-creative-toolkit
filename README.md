@@ -1,0 +1,147 @@
+# AI Creative Toolkit
+
+> Skills para Claude Code cobrindo os 3 pilares de produção criativa com IA: vídeo programático, imagem on-brand e landing pages.
+
+Cada skill é um conjunto de instruções carregadas no Claude Code que define **como** produzir um tipo específico de entregável criativo — com padrões técnicos, fluxos testados e aprendizados de produção real.
+
+---
+
+## Os 3 Kits
+
+### Kit Vídeo
+
+| Skill | Quando usar | Como funciona |
+|-------|------------|---------------|
+| `skill-video-remotion` | Vídeo 100% programático sem pessoa gravando (institucional, motion graphics, lettering animado) | React + Remotion → composition + cenas → `npx remotion render` → MP4 |
+| `skill-edicao-anuncios-video` | Vídeo bruto existente vira anúncio / conteúdo | Toolkit 4-layer: método cinematográfico → Video-Use (corte por transcrição) → HyperFrames (motion overlay) → ffmpeg |
+
+**Skill global complementar:** `remotion-best-practices` (instalar em `~/.claude/skills/`)
+
+### Kit Imagens
+
+| Skill | Quando usar | Como funciona |
+|-------|------------|---------------|
+| `skill-arte-onbrand` | Texto crítico em PT-BR: carrosséis, slides, posts com número/tabela/citação | HTML+CSS → Chromium headless → PNG. Zero typos de acentuação. |
+| `image-prompt-generator` | Construir prompt para gpt-image-2 (gen-image.sh) | Helper que estrutura prompt por surface: fotografia realista, editorial, conceitual |
+
+**Script:** `scripts/gen-image.sh` — executa gpt-image-2 via OpenAI API. Requer `OPENAI_API_KEY`.
+
+### Kit Landing Page
+
+| Skill | Quando usar | Como funciona |
+|-------|------------|---------------|
+| `skill-landing-page-builder` | Construir LP HTML single-file pronta pra deploy | 7 fases: plan mode → anti-slop → moodboard → site teardown → hero autoral → micro-detalhes premium → QA |
+
+**Playbook:** `skill-landing-page-builder/references/playbook-7-niveis.md` — Os 7 Níveis de Front-End Design com Claude Code.
+
+---
+
+## Como Instalar
+
+### 1. Clonar o repo
+
+```bash
+git clone https://github.com/pedroluca-prog/ai-creative-toolkit.git
+```
+
+### 2. Instalar dependências das skills que precisam de Node
+
+```bash
+# skill-arte-onbrand (Puppeteer)
+cd ai-creative-toolkit/skill-arte-onbrand && npm install
+
+# skill-video-remotion — instalar Remotion no projeto de cada vídeo
+# npx create-video@latest  (na pasta onde for criar o vídeo)
+```
+
+### 3. Configurar variáveis de ambiente
+
+Para `gen-image.sh`:
+```bash
+export OPENAI_API_KEY="sk-..."
+```
+
+Para `skill-video-remotion` (narração ElevenLabs — opcional):
+```bash
+export ELEVENLABS_API_KEY="..."
+```
+
+### 4. Registrar skills no Claude Code
+
+As skills ficam ativas quando o Claude Code detecta código ou contexto relevante. Para invocar manualmente:
+
+```
+/skill skill-video-remotion
+/skill skill-edicao-anuncios-video
+/skill skill-arte-onbrand
+/skill skill-landing-page-builder
+```
+
+Ou em linguagem natural: "use a skill de vídeo remotion para criar um vídeo institucional de 60s".
+
+---
+
+## Estrutura do Repo
+
+```
+ai-creative-toolkit/
+├── skill-video-remotion/
+│   ├── SKILL.md              ← instruções principais (lidas no boot)
+│   ├── aprendizados.md       ← padrões acumulados após uso real
+│   ├── references/           ← docs técnicas carregadas sob demanda
+│   └── scripts/              ← helpers shell
+│
+├── skill-edicao-anuncios-video/
+│   ├── SKILL.md
+│   ├── aprendizados.md
+│   └── references/
+│
+├── skill-arte-onbrand/
+│   ├── SKILL.md
+│   ├── aprendizados.md
+│   ├── pipeline/             ← Node.js: compose.mjs, render.mjs, cli.mjs
+│   ├── templates/            ← HTMLs dos templates de arte
+│   └── references/
+│
+├── skill-landing-page-builder/
+│   ├── SKILL.md
+│   ├── aprendizados.md
+│   └── references/
+│       ├── playbook-7-niveis.md
+│       ├── html-architecture.md
+│       ├── moodboard-process.md
+│       ├── site-teardown.md
+│       ├── component-shopping.md
+│       ├── hero-asset-autoral.md
+│       ├── micro-details-premium.md
+│       ├── editor-visual-hibrido.md
+│       └── cro-checklist.md
+│
+├── image-prompt-generator/
+│   └── SKILL.md
+│
+└── scripts/
+    └── gen-image.sh
+```
+
+---
+
+## Filosofia
+
+Cada skill tem 3 camadas:
+
+1. **SKILL.md** — o que fazer, em que ordem, com quais ferramentas. Carregado automaticamente pelo Claude Code.
+2. **aprendizados.md** — padrões que funcionam e erros recorrentes, acumulados após uso real. O Claude lê antes de executar para não repetir erros.
+3. **references/** — documentação densa carregada sob demanda (não no boot). Cada seção da SKILL.md indica quando ler qual referência.
+
+O sistema auto-evolui: cada execução pode adicionar ao `aprendizados.md`. Padrões que aparecem 3+ vezes são promovidos para regras na SKILL.md.
+
+---
+
+## Requisitos
+
+- Claude Code (claude.ai/code ou extensão VS Code/JetBrains)
+- Node.js 20+ (para skill-arte-onbrand e projetos Remotion)
+- ffmpeg (para skill-edicao-anuncios-video e renders finais)
+- Google Chrome instalado (para skill-arte-onbrand via Puppeteer e para render Remotion em macOS Sequoia)
+- `OPENAI_API_KEY` com org verificada (para gen-image.sh / gpt-image-2)

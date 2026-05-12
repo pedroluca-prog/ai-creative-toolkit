@@ -1,0 +1,16 @@
+{
+  "name": "skill-arte-onbrand",
+  "version": "0.1.0",
+  "description": "Gera PNGs on-brand de posts e carrosséis para operação AZB usando HTML+Chromium. Elimina typos do Gemini em PT-BR porque o texto é renderizado nativo pelo browser.",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "arte-onbrand": "./pipeline/cli.mjs"
+  },
+  "scripts": {
+    "render": "node pipeline/cli.mjs"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0"
+  }
+}

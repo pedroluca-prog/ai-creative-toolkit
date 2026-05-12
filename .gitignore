@@ -1,0 +1,13 @@
+node_modules/
+**/node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
+.DS_Store
+**/.DS_Store
+*.log
+*.tmp
+.env
+.env.*
+.mcp.json

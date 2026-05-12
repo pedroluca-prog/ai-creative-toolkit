@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<!--
+  deck-mapa-16-9 (1920x1080)
+  Slide com mapa do Brasil (SVG embed) à esquerda + texto à direita.
+  Para slides 6T.3, S2, S5 — provando cobertura geográfica em 14 estados.
+  Props:
+    - eyebrow
+    - title
+    - subhead (opcional)
+    - paragraphs[] OU bodyHtml: corpo de texto ou bullets
+    - regionList: html com lista regional (ex: "<strong>RS</strong> · Alegrete · Itaqui...")
+    - estadoDestaque: sigla do estado a destacar (default: ESTADO field editável)
+    - statesActive: array de siglas dos estados ativos (ex: ["RS","SC","PR",...])
+    - highlight: pull-quote/destaque opcional
+    - footnote: rodapé pequeno
+    - handle
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{googleFontsLink}}
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; }
+  body {
+    font-family: {{fontBody}};
+    background-color: {{bgDeep}};
+    color: #fff;
+    padding: 70px 80px 100px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    grid-template-rows: auto 1fr auto;
+    column-gap: 60px;
+    row-gap: 18px;
+  }
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 12% 15%, rgba(71,166,19,0.16) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 55% at 90% 92%, rgba(71,166,19,0.10) 0%, transparent 55%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .bg-symbol {
+    position: absolute;
+    right: -60px;
+    top: -50px;
+    width: 320px;
+    height: 320px;
+    background-image: url("{{logoSymbolPath}}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.18;
+    z-index: 1;
+    pointer-events: none;
+    transform: rotate(15deg);
+    filter: brightness(1.35);
+  }
+  .bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'><path d='M24 4 L24 14 M24 34 L24 44 M4 24 L14 24 M34 24 L44 24' stroke='%2347a613' stroke-width='0.8' stroke-linecap='round' opacity='0.6'/><circle cx='24' cy='24' r='0.9' fill='%2347a613' opacity='0.5'/></svg>");
+    background-size: 48px 48px;
+    opacity: 0.08;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .bg-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.30) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .header, .map-col, .text-col, .footer-row {
+    position: relative;
+    z-index: 3;
+  }
+  .header {
+    grid-column: 1 / span 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .eyebrow {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: {{accentLight}};
+  }
+  .pageinfo {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+  }
+  .title {
+    font-family: {{fontDisplay}};
+    font-size: 50px;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    color: #fff;
+    margin-top: 6px;
+  }
+  .subhead {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.32;
+    color: rgba(255,255,255,0.85);
+    margin-top: 8px;
+  }
+  .map-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+  }
+  .map-col svg {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    max-height: 600px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+  }
+  .text-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+  }
+  .body {
+    font-size: 21px;
+    font-weight: 300;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.92);
+  }
+  .body p + p { margin-top: 10px; }
+  .body strong {
+    color: {{accentLight}};
+    font-weight: 500;
+  }
+  .body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .body ul li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+  }
+  .body ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 10px;
+    height: 10px;
+    background: {{accent}};
+    border-radius: 50%;
+  }
+  .region-list {
+    background: rgba(255,255,255,0.05);
+    border-left: 3px solid {{accent}};
+    padding: 18px 22px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.88);
+  }
+  .region-list strong {
+    color: {{accentLight}};
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .editable-field {
+    background: #FFF8DC;
+    color: #1B1F14;
+    border: 2px dashed {{amber}};
+    padding: 2px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: 500;
+  }
+  .highlight {
+    font-family: {{fontDisplay}};
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.25;
+    color: #fff;
+    background: rgba(71,166,19,0.20);
+    border-left: 5px solid {{accent}};
+    padding: 14px 22px;
+  }
+  .footer-row {
+    grid-column: 1 / span 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    font-size: 14px;
+    color: rgba(255,255,255,0.62);
+    letter-spacing: 1px;
+  }
+  .footnote {
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.55);
+    max-width: 1300px;
+  }
+  .footer-row .logo {
+    height: 44px;
+    opacity: 0.92;
+  }
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .badge-provisorio {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    background: #c75c2c;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    z-index: 5;
+    display: {{provisorioDisplay}};
+  }
+</style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="bg-symbol"></div>
+  <div class="bg-pattern"></div>
+  <div class="bg-vignette"></div>
+  <div class="badge-provisorio">{{provisorioLabel}}</div>
+  <div class="header">
+    <div>
+      <div class="eyebrow">{{eyebrow}}</div>
+      <div class="title">{{title}}</div>
+      <div class="subhead">{{subhead}}</div>
+    </div>
+    <div class="pageinfo">{{pageInfo}}</div>
+  </div>
+  <div class="map-col">{{mapSvg}}</div>
+  <div class="text-col">
+    <div class="body">{{bodyHtml}}</div>
+    <div class="region-list">{{regionListHtml}}</div>
+    <div class="highlight">{{highlight}}</div>
+  </div>
+  <div class="footer-row">
+    <div class="footer-left">
+      <img class="logo" src="{{logoPath}}" alt="">
+      <span>{{handle}}</span>
+    </div>
+    <div class="footnote">{{footnote}}</div>
+  </div>
+</body>
+</html>

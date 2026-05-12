@@ -1,0 +1,268 @@
+---
+name: skill-landing-page-builder
+description: "Produz landing pages completas como HTML single-file pronto pra deploy. Segue os 7 Níveis de Front-End Design: plan mode → anti-slop foundation → moodboard visual → site teardown → hero autoral + componentes → micro-detalhes premium → QA. Use quando pedir 'construir LP', 'montar página', 'criar landing page', 'HTML da LP', 'página pronta'."
+---
+
+# Skill Landing Page Builder — v2 · 7 Níveis
+
+Constrói landing pages com personalidade. Não templates de IA — páginas com cara própria.
+
+Fundamentada no **Playbook: Os 7 Níveis de Front-End Design com Claude Code** (ver `references/playbook-7-niveis.md`).
+
+## Esta Skill vs Outras
+
+| Skill | O que faz | Output |
+|-------|----------|--------|
+| skill-funil-copy | Escreve a COPY do funil | Textos (markdown) |
+| skill-vibecoding | Gera SPEC TÉCNICA | Documento de especificação |
+| **skill-landing-page-builder** | **CONSTRÓI a página** | **HTML pronto pra deploy** |
+
+## Pré-requisitos (OBRIGATÓRIOS)
+
+1. Copy aprovada — de skill-funil-copy OU briefing direto do KAM
+2. Brand manual — cores hex, fontes, logo
+
+Se copy não existir: rodar `skill-funil-copy` primeiro.
+
+## Aprendizados
+Ler `aprendizados.md` antes de iniciar.
+
+## Referências (carregar sob demanda — não ler tudo de uma vez)
+
+| Referência | Fase | Quando ler |
+|-----------|------|-----------|
+| `references/html-architecture.md` | Fase 2 | Template base + stack |
+| `references/moodboard-process.md` | Fase 3 | Protocolo Awwwards/Godly/Pinterest/Dribbble |
+| `references/site-teardown.md` | Fase 4 | Como desconstruir site de referência via Firecrawl |
+| `references/component-shopping.md` | Fase 5 | 21st.dev, Magic UI, Aceternity — como integrar |
+| `references/hero-asset-autoral.md` | Fase 5 | gen-image.sh + image-prompt-generator + vídeo loop |
+| `references/micro-details-premium.md` | Fase 6 | Glass morphism, ticker, counters, light sweep, scroll indicator |
+| `references/editor-visual-hibrido.md` | Fase 6 | Stitch, epic-paper, Figma — quando sair do terminal |
+| `references/cro-checklist.md` | Fase 7 | QA pré-entrega |
+
+---
+
+## Fluxo de Execução — Os 7 Níveis
+
+### Fase 0 — Inputs
+
+Coletar antes de começar:
+
+```yaml
+objetivo: "capturar lead / venda direta / waitlist / evento"
+tipo_lp: "Captura | Inside Sales | Vendas Longa | Evento/Webinar"
+copy_arquivo: "path para copy aprovada"
+brand_manual: "path para brand manual"
+referencias_visuais: ["URL ou screenshot 1", "URL ou screenshot 2"]  # mínimo 3
+site_ancora: "URL do site cujo código vamos dissecar"
+nivel_ambicao: "N2 (foundation) | N3 (moodboard) | N4 (teardown) | N5 (hero autoral) | N6 (premium)"
+```
+
+**Regra de entrada:** se `nivel_ambicao` não for informado, perguntar. LP para cliente pagante = mínimo N4. LP institucional de marca = N5 ou N6.
+
+---
+
+### Fase 1 — Plan Mode (N1)
+
+Antes de escrever uma linha de HTML, responder:
+
+1. Qual o **objetivo único** da página? (uma conversão, não duas)
+2. Qual o **tipo de LP**? (ver tabela abaixo)
+3. Quais as **seções necessárias**? (lista — sem inventar seções que a copy não cobre)
+4. Qual o **CTA principal**? (texto exato)
+5. Qual o **público**? (do ICP — não genérico)
+
+| Tipo de LP | Seções padrão |
+|-----------|--------------|
+| Captura (isca) | Hero + 3 bullets + Form + Social proof |
+| Inside Sales | Hero + Problema + Solução + Prova + Como funciona + FAQ + Form |
+| Vendas (longa) | Hero + Problema + Solução + Prova + Como funciona + Preço + Garantia + Urgência + FAQ + Form |
+| Evento/Webinar | Hero + Palestrante + Agenda + Form + Countdown |
+
+**Armadilha N1:** aceitar sugestões genéricas como "dark and techy" ou "clean and minimal". Essas descrições não orientam nada.
+
+---
+
+### Fase 2 — Anti-Slop Foundation (N2)
+
+Ler `references/html-architecture.md`.
+
+**Stack obrigatória:**
+- Tailwind CDN (não build step) + config inline espelhando brand manual
+- Alpine.js apenas se precisar interatividade (FAQ, menu mobile, form state)
+- Google Fonts via `<link>` no `<head>`
+- Single-file: tudo num único `.html`
+
+**Regras de construção:**
+1. Mobile-first — todo layout mobile por padrão, `md:` pra desktop
+2. Formulário com `fetch()` + loading state + success message (ver `aprendizados.md`)
+3. Meta tags completas: title, description, OG, favicon
+4. Semântico: `<header>`, `<main>`, `<section id="...">`, `<footer>`
+5. `scroll-margin-top` em todo `section[id]` (evita header fixo cobrindo âncora)
+6. Z-index explícito: `z-40` header/cookies · `z-30` sticky mobile/WA flutuante · `z-20` modals
+7. `data-cta="nome-intencao"` em todo botão/link comercial
+8. Comentários de seção `<!-- ====== HERO ====== -->` pra navegação em arquivo longo
+9. Sem IDs fake: `[GTM_ID]`, `[FORMSPREE_ID]`, `[META_PIXEL_ID]` ficam literais
+
+**Teto do N2:** o site é um template bem feito. Bonito "para IA", não pra quem tem olho treinado.
+
+---
+
+### Fase 3 — Moodboard Visual (N3)
+
+Ler `references/moodboard-process.md`.
+
+**Quando ir além do N2:**
+- Sempre que o cliente for pagante
+- Quando o brief mencionar "premium", "diferenciado", "moderno"
+- Quando o target é um decisor com olho apurado (agronegócio B2B de alto ticket)
+
+**Processo resumido:**
+1. Coletar 5–10 screenshots de Awwwards / Godly / Pinterest / Dribbble
+2. Identificar: o que está funcionando visualmente em cada referência?
+3. Escolher elementos de referências diferentes (hero de um, cards de outro)
+4. Passar os screenshots para o Claude junto com o brief: "Quero este estilo visual"
+
+**Armadilha N3 (vibe gap):** Claude Code traduz ~50% do visual de uma screenshot. Ficar pedindo ajuste em cima de ajuste fecha o loop no mesmo lugar. A saída é N4.
+
+---
+
+### Fase 4 — Site Teardown (N4)
+
+Ler `references/site-teardown.md`.
+
+**Processo resumido:**
+1. Escolher 1 site-âncora (do moodboard)
+2. Usar Firecrawl MCP (`mcp__claude_ai_Firecrawl__firecrawl_scrape`) para puxar HTML completo
+3. Identificar CSS e JS externos, puxar também (não resumir — conteúdo integral)
+4. Pedir ao Claude para explicar os efeitos que você não entende (constrói vocabulário)
+5. Instruir: "Use como ponto de partida — clone adaptado ao nosso design"
+
+**Por que o teardown muda o resultado:** com o código real na mesa, você tem uma conversa inteligente com o Claude. Sem o código, você tenta descrever um problema visual só com texto. Isso tem teto.
+
+**Armadilha N4 (clone ceiling):** clonar sem entender. O objetivo é aprender o vocabulário, não copiar. Se você virar "accept-accept-next" cegamente, qualquer ajuste novo vai quebrar.
+
+---
+
+### Fase 5 — Hero Autoral + Componentes (N5)
+
+Ler `references/hero-asset-autoral.md` e `references/component-shopping.md`.
+
+#### 5a. Componentes de bibliotecas
+
+Substituir seções genéricas por componentes curados:
+- **21st.dev** — botões, carousels, navigation menus com prompt pronto
+- **Magic UI / Aceternity** — componentes React/HTML modernos
+- **CodePen** — efeitos criativos pontuais
+
+Fluxo: achou o componente → copia o código/prompt → pede ao Claude para integrar → ajusta tom e cor.
+
+Aplicar em **todas** as seções, não só no hero: cards chatos, CTA flat, footer padrão — tudo passa pelo filtro.
+
+#### 5b. Asset hero autoral (imagem-conceito)
+
+Em vez de background genérico, criar imagem que conta a história do produto.
+
+Fluxo:
+1. Usar `image-prompt-generator` para construir o prompt
+2. Executar `gen-image.sh` (gpt-image-2) para gerar a imagem
+3. Validar: a imagem tem negative space à direita para o texto do hero?
+4. Instruir: "Use esta imagem como background do hero, texto à esquerda"
+
+Logo SEMPRE via PNG/SVG oficial — nunca via gen-image.sh.
+
+#### 5c. Upgrade para vídeo loop (opcional)
+
+Quando o brief pede hero em movimento:
+- Usar a imagem como start frame em Kling 3.0 ou Veo 3.1
+- Movimento sutil (vento, luz, água) — nunca videogame
+- Duração ~15s para loop imperceptível
+- **Obrigatório:** vídeo só no desktop, imagem estática no mobile (atributo `<source media="(min-width:768px)">` ou Alpine.js)
+- Atributos iOS-safe: `autoplay muted loop playsinline preload="metadata" poster="..."` (ver `aprendizados.md` §Padrão vídeo hero)
+
+---
+
+### Fase 6 — Micro-Detalhes Premium (N6)
+
+Ler `references/micro-details-premium.md` e `references/editor-visual-hibrido.md`.
+
+**Quando entrar aqui:** após a estrutura estar sólida. N6 é camada de polish, não de construção.
+
+**Lista de micro-detalhes prioritários (implementar por ordem de impacto):**
+
+| Detalhe | Impacto visual | Esforço |
+|---------|---------------|---------|
+| Tipografia deliberada (Google Fonts, não default) | Alto | Baixo |
+| Glass morphism em cards | Alto | Médio |
+| Contadores animados (0 → número no load) | Alto | Médio |
+| Ticker rolante entre seções | Médio | Baixo |
+| Light sweep sutil em headlines | Médio | Baixo |
+| Scroll indicator no topo | Baixo | Baixo |
+| Loading state com leve hesitação (300ms delay) | Médio | Baixo |
+
+Nenhum desses é percebido conscientemente, mas juntos comunicam **cuidado** — e cuidado é o que separa "feito com IA" de "crafted com IA como ferramenta".
+
+**Fluxo híbrido com editor visual:**
+1. Fazer screenshot do estado atual
+2. Abrir no Stitch (Google) ou epic-paper e gerar variações visuais
+3. Escolher variação favorita
+4. Voltar ao Claude: "Implemente esse efeito de glass morphism"
+5. Pedir ao Claude para fazer web search de best practices antes de codar o efeito
+
+---
+
+### Fase 7 — QA Pré-Deploy
+
+Ler `references/cro-checklist.md`.
+
+**Validações grep obrigatórias:**
+```bash
+grep -c "<h1" index.html                      # esperado: 1
+grep -n "https.*https" index.html             # esperado: 0 matches
+grep -c 'rel="canonical"' index.html          # esperado: 1
+grep -c 'application/ld+json' index.html      # esperado: ≥1
+```
+
+**Checklist visual (mobile first):**
+- [ ] Headline visível sem scroll no mobile
+- [ ] CTA aparece 3+ vezes na página
+- [ ] Botão CTA tem cor contrastante (não mesma do fundo)
+- [ ] Prova social tem nome + resultado específico (não "cliente satisfeito")
+- [ ] FAQ responde objeções reais do ICP
+- [ ] Form: max 3-4 campos
+- [ ] Mobile: CTA sticky no bottom
+- [ ] Hero video: imagem estática no mobile, vídeo só no desktop
+- [ ] Logo visível em fundo claro e escuro
+- [ ] Sem `[PLACEHOLDER]` descoberto no código (buscar com grep)
+- [ ] Sem erros no console (abrir DevTools)
+
+**Salvar em:** `Clientes/{cliente}/Campanhas/{campanha}/index.html`
+
+---
+
+## Integração com Outras Skills
+
+| Skill | Relação |
+|-------|---------|
+| skill-funil-copy | Fornece a copy (INPUT obrigatório) |
+| skill-vibecoding | Pode gerar spec que esta skill executa |
+| skill-branding | Fornece cores, fontes, logo |
+| image-prompt-generator | Helper obrigatório antes de gen-image.sh |
+| skill-arte-onbrand | Para texto crítico em PT-BR como PNG/imagem |
+| anti-ai-copy | Toda copy da LP passa pela régua |
+| skill-auditoria | Audita o output final (nota mín. 80/100) |
+
+---
+
+## Instruções de Deploy
+
+```
+OPÇÃO 1 — Vercel (recomendado):
+vercel --prod --yes  (na pasta com index.html)
+
+OPÇÃO 2 — Netlify:
+Sites → Drag and drop o HTML
+
+OPÇÃO 3 — GitHub Pages:
+Subir como index.html → Settings → Pages → Deploy from main
+```
