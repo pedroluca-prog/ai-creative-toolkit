@@ -39,6 +39,7 @@ Ler `aprendizados.md` antes de iniciar.
 | `references/micro-details-premium.md` | Fase 6 | Glass morphism, ticker, counters, light sweep, scroll indicator |
 | `references/editor-visual-hibrido.md` | Fase 6 | Stitch, epic-paper, Figma — quando sair do terminal |
 | `references/cro-checklist.md` | Fase 7 | QA pré-entrega |
+| `references/geo.md` | Fase 2 + 7 | **Só em site institucional / multi-página** — engenharia GEO-ready (não usar em LP de campanha paga) |
 
 ---
 
@@ -103,6 +104,8 @@ Ler `references/html-architecture.md`.
 7. `data-cta="nome-intencao"` em todo botão/link comercial
 8. Comentários de seção `<!-- ====== HERO ====== -->` pra navegação em arquivo longo
 9. Sem IDs fake: `[GTM_ID]`, `[FORMSPREE_ID]`, `[META_PIXEL_ID]` ficam literais
+
+**Modo GEO (condicional):** se o entregável for site institucional ou multi-página, ler `references/geo.md` aqui e aplicar a camada de engenharia GEO-ready já na fundação (HTML semântico, conteúdo no HTML sem depender de JS, `robots.txt` + `sitemap.xml`, linkagem interna densa, JSON-LD por tipo de página). É mais barato construir GEO-ready do que retrofitar. **Não ativar em LP de campanha paga** — busca generativa não alimenta tráfego pago.
 
 **Teto do N2:** o site é um template bem feito. Bonito "para IA", não pra quem tem olho treinado.
 
@@ -222,6 +225,8 @@ grep -n "https.*https" index.html             # esperado: 0 matches
 grep -c 'rel="canonical"' index.html          # esperado: 1
 grep -c 'application/ld+json' index.html      # esperado: ≥1
 ```
+
+**Se modo GEO ativo:** rodar também o checklist GEO-ready e as validações grep extras de `references/geo.md` (robots.txt com bots de IA, sitemap.xml, tabelas em `<table>` real, JSON-LD do tipo certo).
 
 **Checklist visual (mobile first):**
 - [ ] Headline visível sem scroll no mobile
