@@ -6,6 +6,18 @@ Cada skill é um conjunto de instruções carregadas no Claude Code que define *
 
 ---
 
+## Skill Transversal: anti-ai-copy
+
+Antes dos 3 kits, uma régua que vale pra **todo texto** produzido em qualquer kit (legendas de carrossel, scripts de vídeo, copy de LP, CTAs).
+
+| Skill | Quando usar | O que faz |
+|-------|------------|-----------|
+| `anti-ai-copy` | Toda produção e revisão de texto | Régua operacional: princípio fundante, 11 grupos de desperdício, maquinário retórico transferível (período longo + remate curto, tríade, chiasmus, abertura como veredito, fechamento como estocada) e teste de bolso de 7 perguntas |
+
+Aplica antes de entregar qualquer copy. Tem prioridade sobre outras skills de texto.
+
+---
+
 ## Os 3 Kits
 
 ### Kit Vídeo
@@ -85,6 +97,9 @@ Ou em linguagem natural: "use a skill de vídeo remotion para criar um vídeo in
 
 ```
 ai-creative-toolkit/
+├── anti-ai-copy/
+│   └── SKILL.md              ← régua transversal pra todo texto
+│
 ├── skill-video-remotion/
 │   ├── SKILL.md              ← instruções principais (lidas no boot)
 │   ├── aprendizados.md       ← padrões acumulados após uso real

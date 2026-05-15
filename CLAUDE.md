@@ -51,12 +51,16 @@
 
 ## Regra #4 — Texto anti-IA
 
-Todo texto produzido passa pela régua anti-IA antes de ser entregue:
+**Todo texto produzido passa pela skill `anti-ai-copy` antes de ser entregue.** Ela tem prioridade sobre qualquer outra skill de texto. As outras definem O QUE produzir; ela define COMO o texto deve soar.
+
+Resumo executivo:
 - Demonstrar > evocar
 - Abertura como veredito, não como pergunta retórica
 - Fechamento como estocada, não como resumo
 - Sem travessão, sem "jornada", sem "propósito", sem "mindset"
 - Verbo concreto, substantivo específico
+
+Detalhes (11 grupos de desperdício, maquinário retórico, teste de bolso): `anti-ai-copy/SKILL.md`.
 
 ## Regra #5 — Logo e texto em imagens
 
