@@ -56,11 +56,19 @@ Aplica antes de entregar qualquer copy. Tem prioridade sobre outras skills de te
 git clone https://github.com/pedroluca-prog/ai-creative-toolkit.git
 ```
 
+Ou instale como plugin do Claude Code (recomendado):
+
+```bash
+# No Claude Code:
+/plugin marketplace add pedroluca-prog/ai-creative-toolkit
+/plugin install ai-creative-toolkit@ai-creative-toolkit
+```
+
 ### 2. Instalar dependências das skills que precisam de Node
 
 ```bash
 # skill-arte-onbrand (Puppeteer)
-cd ai-creative-toolkit/skill-arte-onbrand && npm install
+cd ai-creative-toolkit/skills/skill-arte-onbrand && npm install
 
 # skill-video-remotion — instalar Remotion no projeto de cada vídeo
 # npx create-video@latest  (na pasta onde for criar o vídeo)
@@ -97,43 +105,48 @@ Ou em linguagem natural: "use a skill de vídeo remotion para criar um vídeo in
 
 ```
 ai-creative-toolkit/
-├── anti-ai-copy/
-│   └── SKILL.md              ← régua transversal pra todo texto
+├── .claude-plugin/
+│   ├── marketplace.json      ← define o marketplace ai-creative-toolkit
+│   └── plugin.json           ← define o plugin único (com todas as skills)
 │
-├── skill-video-remotion/
-│   ├── SKILL.md              ← instruções principais (lidas no boot)
-│   ├── aprendizados.md       ← padrões acumulados após uso real
-│   ├── references/           ← docs técnicas carregadas sob demanda
-│   └── scripts/              ← helpers shell
-│
-├── skill-edicao-anuncios-video/
-│   ├── SKILL.md
-│   ├── aprendizados.md
-│   └── references/
-│
-├── skill-arte-onbrand/
-│   ├── SKILL.md
-│   ├── aprendizados.md
-│   ├── pipeline/             ← Node.js: compose.mjs, render.mjs, cli.mjs
-│   ├── templates/            ← HTMLs dos templates de arte
-│   └── references/
-│
-├── skill-landing-page-builder/
-│   ├── SKILL.md
-│   ├── aprendizados.md
-│   └── references/
-│       ├── playbook-7-niveis.md
-│       ├── html-architecture.md
-│       ├── moodboard-process.md
-│       ├── site-teardown.md
-│       ├── component-shopping.md
-│       ├── hero-asset-autoral.md
-│       ├── micro-details-premium.md
-│       ├── editor-visual-hibrido.md
-│       └── cro-checklist.md
-│
-├── image-prompt-generator/
-│   └── SKILL.md
+├── skills/
+│   ├── anti-ai-copy/
+│   │   └── SKILL.md          ← régua transversal pra todo texto
+│   │
+│   ├── skill-video-remotion/
+│   │   ├── SKILL.md          ← instruções principais (lidas no boot)
+│   │   ├── aprendizados.md   ← padrões acumulados após uso real
+│   │   ├── references/       ← docs técnicas carregadas sob demanda
+│   │   └── scripts/          ← helpers shell
+│   │
+│   ├── skill-edicao-anuncios-video/
+│   │   ├── SKILL.md
+│   │   ├── aprendizados.md
+│   │   └── references/
+│   │
+│   ├── skill-arte-onbrand/
+│   │   ├── SKILL.md
+│   │   ├── aprendizados.md
+│   │   ├── pipeline/         ← Node.js: compose.mjs, render.mjs, cli.mjs
+│   │   ├── templates/        ← HTMLs dos templates de arte
+│   │   └── references/
+│   │
+│   ├── skill-landing-page-builder/
+│   │   ├── SKILL.md
+│   │   ├── aprendizados.md
+│   │   └── references/
+│   │       ├── playbook-7-niveis.md
+│   │       ├── html-architecture.md
+│   │       ├── moodboard-process.md
+│   │       ├── site-teardown.md
+│   │       ├── component-shopping.md
+│   │       ├── hero-asset-autoral.md
+│   │       ├── micro-details-premium.md
+│   │       ├── editor-visual-hibrido.md
+│   │       └── cro-checklist.md
+│   │
+│   └── image-prompt-generator/
+│       └── SKILL.md
 │
 └── scripts/
     └── gen-image.sh

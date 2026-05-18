@@ -1,0 +1,21 @@
+{
+  "name": "ai-creative-toolkit",
+  "version": "1.1.0",
+  "description": "Toolkit de criativos AI para marketing: arte on-brand com texto crítico PT-BR sem typos, edição de vídeo em 4 camadas, landing pages 7 níveis, prompts otimizados pra gpt-image-2 e régua anti-AI-copy.",
+  "author": {
+    "name": "Pedro Luca",
+    "url": "https://github.com/pedroluca-prog"
+  },
+  "keywords": [
+    "marketing",
+    "creative",
+    "image-generation",
+    "video-editing",
+    "landing-page",
+    "carousel",
+    "gpt-image",
+    "anti-ai-copy"
+  ],
+  "homepage": "https://github.com/pedroluca-prog/ai-creative-toolkit",
+  "license": "MIT"
+}
