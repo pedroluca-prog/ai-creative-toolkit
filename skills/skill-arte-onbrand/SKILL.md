@@ -51,6 +51,7 @@ Se não houver foto, os templates usam cor sólida + padrão geométrico fallbac
 | `carrossel-foto-texto` | Slide com foto topo (45%) + corpo de texto bottom (55%) com gradient de transição | `eyebrow`, `title`, `paragraphs[]` ou `bodyHtml`, `highlight`, `handle`, `pageNum`, `pageTotal` + `backgroundImage` obrigatório |
 | `carrossel-tabela` | Comparativo 2-colunas (ex: Tifton vs. Braquiária) | `eyebrow`, `title`, `colAHeader`, `colBHeader`, `rows[]` (array de `{label,a,b}`), `footnote`, `handle`, `pageNum`, `pageTotal` |
 | `carrossel-cta` | Slide final com CTA em card destacado — fundo enriquecido | `eyebrow`, `title`, `body`, `ctaLabel`, `ctaValue`, `handle`, `pageNum`, `pageTotal` |
+| `carrossel-keeper` | **Slide save-worthy** (o slide que vale salvar): framework, checklist, comparativo ou frase-âncora, emoldurado em accent + badge "SALVE ISTO". Visualmente distinto dos demais — sinaliza "guarda este" | `eyebrow`, `title`, **modo A** `items[]` (`{titulo,texto}`) **ou modo B** `quote` + `attribution`, `handle`, `pageNum`, `pageTotal` |
 
 ## Princípios visuais (onde colocar foto)
 
@@ -61,6 +62,9 @@ Cada carrossel deve ter **no mínimo ~40% dos slides com foto real ou gerada**, 
 2. **Slide tem texto médio + cena fotografável** ("o antes", "o depois", "implantação", "resultado") → `carrossel-foto-texto` com `backgroundImage`
 3. **Slide é denso de texto, numérico ou conceitual** → `carrossel-texto` sem foto (fundo enriquecido cobre)
 4. **Slide final com CTA** → `carrossel-cta` sem foto (fundo enriquecido cobre)
+5. **Slide keeper (o que vale salvar)** → `carrossel-keeper`. Todo carrossel precisa de UM. Deve destoar visualmente dos outros slides (a moldura accent + badge fazem isso) — é o sinal de "guarda este".
+
+**Sistema visual do carrossel (regra 3, lado visual):** 1 ideia por slide, **máx. 2 fontes** (display + body do brand), contraste alto. O slide keeper é o único que pode quebrar o ritmo visual — essa quebra é proposital. Os demais seguem o mesmo sistema pra ler como uma peça só.
 
 **Ordem de preferência para obter fotos:**
 1. Banco de fotos reais do cliente
@@ -77,7 +81,7 @@ Qualquer campo de texto aceita:
 
 Arrays são processados automaticamente:
 - `paragraphs: [...]` → vira `<p>...</p>` cada
-- `items: [...]` → vira `<ul><li>...</li></ul>`
+- `items: [...]` → strings viram `<ul><li>...</li></ul>`; objetos `{titulo, texto}` viram lista rica (marcador numerado + título + corpo), usada pelo `carrossel-keeper`
 - `rows: [{label,a,b}, ...]` → linhas de tabela comparativa
 
 ## Como chamar

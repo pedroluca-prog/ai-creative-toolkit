@@ -36,6 +36,11 @@ export async function compose({
     googleFontsLink: brand.googleFontsLink,
     fontDisplay: brand.fonts.display,
     fontBody: brand.fonts.body,
+    fontData: brand.fonts.data || brand.fonts.display,
+    // Triplos RGB / hex p/ camadas decorativas dirigidas por token (default = verde legado).
+    accentRgb: hexToRgb(brand.palette.accent),
+    accentHex: hexClean(brand.palette.accent),
+    bgDeepRgb: hexToRgb(brand.palette.bgDeep),
     logoPath: await toDataUrl(brand.logoPath),
     logoSymbolPath: await toDataUrl(brand.logoSymbolPath),
     backgroundImage: backgroundImage ? await toDataUrl(resolveAbs(backgroundImage, clienteDir)) : "",
@@ -81,6 +86,10 @@ const RAW_FIELDS = new Set([
   "backgroundImage",
   "fontDisplay",
   "fontBody",
+  "fontData",
+  "accentRgb",
+  "accentHex",
+  "bgDeepRgb",
   "bgDeep",
   "bgDark",
   "accent",
@@ -134,6 +143,17 @@ function applyInline(s) {
     .replace(/\n/g, "<br>");
 }
 
+function hexClean(hex) {
+  return String(hex).replace(/[^0-9a-fA-F]/g, "").slice(0, 6).padEnd(6, "0");
+}
+
+function hexToRgb(hex) {
+  const h = hexClean(hex);
+  const n = parseInt(h, 16);
+  if (Number.isNaN(n)) return "0,0,0";
+  return `${(n >> 16) & 255},${(n >> 8) & 255},${n & 255}`;
+}
+
 function deriveHtmlFields(props) {
   const out = {};
   if (!props.bodyHtml && Array.isArray(props.paragraphs)) {
@@ -142,8 +162,26 @@ function deriveHtmlFields(props) {
   if (!props.bodyHtml && typeof props.body === "string" && props.body.includes("\n\n")) {
     out.bodyHtml = props.body.split(/\n\n+/).map((p) => `<p>${applyInline(p.trim())}</p>`).join("");
   }
+  // items[] → itemsHtml. Suporta dois formatos:
+  //  - strings: vira <li> simples (compatibilidade com uso antigo)
+  //  - objetos {titulo, texto}: vira linha rica (marcador numerado {{accent}} + título +
+  //    corpo curto). Usado pelo carrossel-keeper (checklist/framework). Índice 1-based.
   if (!props.itemsHtml && Array.isArray(props.items)) {
-    out.itemsHtml = `<ul>${props.items.map((it) => `<li>${applyInline(it)}</li>`).join("")}</ul>`;
+    const allObjects = props.items.every((it) => it && typeof it === "object");
+    if (allObjects) {
+      out.itemsHtml = props.items
+        .map(
+          (it, i) =>
+            `<li class="list-item"><span class="list-marker">${i + 1}</span>` +
+            `<span class="list-text"><span class="list-title">${applyInline(it.titulo ?? "")}</span>` +
+            (it.texto ? `<span class="list-body">${applyInline(it.texto)}</span>` : "") +
+            `</span></li>`
+        )
+        .join("");
+      out.itemsHtml = `<ul class="list">${out.itemsHtml}</ul>`;
+    } else {
+      out.itemsHtml = `<ul>${props.items.map((it) => `<li>${applyInline(it)}</li>`).join("")}</ul>`;
+    }
   }
   if (!props.rowsHtml && Array.isArray(props.rows)) {
     out.rowsHtml = props.rows
