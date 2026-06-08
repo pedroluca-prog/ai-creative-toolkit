@@ -211,3 +211,26 @@ O erro do template v1 foi digitado "à mão" em sessão de desenvolvimento rápi
 ### Permissões observadas
 
 - Em sessões com permissões restritas (Bash sandbox limitado a paths whitelisted), construir tudo em `/tmp/{nome-projeto}/` e copiar via `python3 shutil.copytree(src, dst, dirs_exist_ok=True)` no fim. Mais resiliente do que tentar `mkdir -p` direto no destino.
+
+---
+
+## 2026-06-03 — RECON (gtm-marketplace) — tokens NÃO eram 100% parametrizados (verde/serifa vazando)
+
+Fecha o TODO aberto desde Xiru ("validar com 2º cliente que os tokens são 100% parametrizados"). **Não eram.** A frente RECON (marca dark ink + amber, fonte Outfit + JetBrains Mono) renderizou os 35 PNGs da 1ª ativação com **fundo verde + headline serifada** — território MakeValue, reprova em 1. A copy/spec estavam certos; o render fallback estava verde.
+
+### Bug raiz (2 camadas)
+1. **`brand-loader.mjs` lia tokens por nomes do esquema verde-legado** (`g1..g9`, `font-display`, `amber`, `surface`, `text-1`). O `brandbook-recon.html` usa nomes nativos (`--ink-1000`, `--amber-400`, `--font`, `--font-mono`) → **todo valor caiu no default hardcoded verde/serifa** do loader. A marca tava certa; o loader não falava a língua dela.
+2. **Os templates tinham VERDE cravado** nas camadas decorativas — `rgba(71,166,19,…)` (glow/pattern), `rgba(2,67,27,…)` (scrim), SVG `stroke='%2347a613'`, `.cta-card` `rgba(71,166,19,0.12)`. Não vinham de token. Mesmo com o loader corrigido, o tom verde decorativo permaneceria.
+
+### Fix (retrocompatível — verde continua o default, marcas legadas intactas)
+- **`brand-loader.mjs`**: cada cor agora tenta `token-legado || token-nativo || default-verde` (ex.: `g9 || ink-1000 || #02431b`). Adicionada fonte `data` (default = display) p/ número monoespaçado opt-in. Marcas com `g1..g9` rendem idênticas; marcas novas usam `ink-*/amber-*` direto.
+- **`compose.mjs`**: deriva `accentRgb`, `accentHex`, `bgDeepRgb` da paleta (hex→rgb). Default verde produz EXATAMENTE `71,166,19` / `2,67,27` / `47a613` — byte-idêntico ao que estava hardcoded. Adicionados ao `RAW_FIELDS`.
+- **Templates** (`carrossel-capa/texto/cta`, `post-estatico-dado`): verde hardcoded → `rgba({{accentRgb}},…)`, `%23{{accentHex}}`, scrim `rgba({{bgDeepRgb}},…)`. O número grande (`.highlight`) passou de `{{fontDisplay}}` → `{{fontData}}`.
+- **`brandbook-recon.html`**: só 2 linhas — `--font-display: 'Outfit'…` e `--font-data: 'JetBrains Mono'…` (o loader não tem como inferir display vs. dado com segurança sem quebrar marcas serifa-display legadas).
+
+### Validação
+- RECON resolve agora: display=Outfit, data=JetBrains Mono, bgDeep=#0A0A0B, accent=#F59E0B. Verde-default confirmado byte-idêntico (`#47a613`→`71,166,19`; `#02431b`→`2,67,27`).
+- Re-render dos 35 PNGs (6 specs): capa ink-1000 + headline Outfit; "R$10 / R$1.000" e "10 dias → 1 dia" em Mono; glow amber sutil (<15%). Zero verde, zero serifa.
+
+### Regra para onboarding de marca nova
+Antes de renderizar um cliente novo: rodar `loadBrand(manualPath)` num one-liner e conferir `fonts` + `palette`. Se vier verde/serifa, o brandbook usa nomes de token que o loader não mapeia — adicionar os nomes nativos ao fallback do loader (retrocompatível) OU expor `--font-display`/`--font-data` no manual. **Nunca** assumir que "o spec aponta o manualPath certo" = "render sai on-brand": o loader precisa reconhecer os NOMES dos tokens.
