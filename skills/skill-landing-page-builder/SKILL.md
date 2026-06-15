@@ -31,6 +31,7 @@ Ler `aprendizados.md` antes de iniciar.
 
 | Referência | Fase | Quando ler |
 |-----------|------|-----------|
+| `references/design-system-generator.md` | Fase 1.5 | Rodar o engine ui-ux-pro-max + regra "brand sobrescreve" |
 | `references/html-architecture.md` | Fase 2 | Template base + stack |
 | `references/moodboard-process.md` | Fase 3 | Protocolo Awwwards/Godly/Pinterest/Dribbble |
 | `references/site-teardown.md` | Fase 4 | Como desconstruir site de referência via Firecrawl |
@@ -81,6 +82,28 @@ Antes de escrever uma linha de HTML, responder:
 | Evento/Webinar | Hero + Palestrante + Agenda + Form + Countdown |
 
 **Armadilha N1:** aceitar sugestões genéricas como "dark and techy" ou "clean and minimal". Essas descrições não orientam nada.
+
+---
+
+### Fase 1.5 — Design System de Partida (engine ui-ux-pro-max)
+
+Ler `references/design-system-generator.md`. Esta fase mata a Armadilha N1: transforma "dark and techy" num sistema concreto — estilo nomeado, paleta, par tipográfico, efeitos, anti-patterns — antes de abrir o HTML.
+
+Rodar local (sem rede, sem `pip install`), com o brief em inglês:
+
+```bash
+python3 vendor/ui-ux-pro-max/scripts/search.py "<setor + objetivo + público>" --design-system -f markdown -p "<cliente>"
+```
+
+A saída traz: pattern de conversão + seções sugeridas · UI style + keywords · paleta (10 roles) · par tipográfico (com link Google Fonts) · efeitos-chave · **anti-patterns** · checklist pré-entrega.
+
+**Como tratar a saída (regra dura):**
+1. **Brand manual do cliente sobrescreve** paleta e tipografia. O engine não conhece a marca — entrega um default. Onde o brand define cor/fonte, o brand vence, ponto.
+2. Aproveitar o que o brand **não** cobre: cor de CTA quando não especificada, par tipográfico de apoio, efeitos/micro-interações, **anti-patterns**, UX guidelines, chart types (se houver seção de dados).
+3. Pattern e seções são sugestão — cruzar com o que a copy aprovada cobre (Fase 1). Não criar seção que a copy não tem.
+4. Usar **só** `--design-system`. A geração de código multi-stack do upstream é descartada — a stack aqui é fixa (HTML single-file + Tailwind CDN).
+
+Salvar a saída junto da copy/brief da campanha como `design-system.md`.
 
 ---
 
@@ -153,12 +176,15 @@ Ler `references/hero-asset-autoral.md` e `references/component-shopping.md`.
 
 #### 5a. Componentes de bibliotecas
 
-Substituir seções genéricas por componentes curados:
-- **21st.dev** — botões, carousels, navigation menus com prompt pronto
-- **Magic UI / Aceternity** — componentes React/HTML modernos
-- **CodePen** — efeitos criativos pontuais
+Substituir seções genéricas por componentes curados. Ler `references/component-shopping.md`.
 
-Fluxo: achou o componente → copia o código/prompt → pede ao Claude para integrar → ajusta tom e cor.
+**Ponto de partida obrigatório: https://21st.dev/community/components.** Toda seção que precisa de componente começa por essa galeria — é o default, não uma opção entre outras. Filtrar pela categoria da seção (hero, navbar, pricing, testimonial, FAQ…), pegar o "Copy Prompt"/código, adaptar de React para HTML single-file + Tailwind + Alpine.
+
+Descer para os fallbacks **só** quando o community não cobrir a seção:
+- **Magic UI / Aceternity** — efeitos React mais pesados (beam, marquee, spotlight)
+- **CodePen** — efeitos CSS/JS pontuais sem biblioteca
+
+Fluxo: achou no community → copia o prompt/código → pede ao Claude para integrar → adapta para HTML+Tailwind+Alpine e aplica cor/fonte do brand.
 
 Aplicar em **todas** as seções, não só no hero: cards chatos, CTA flat, footer padrão — tudo passa pelo filtro.
 

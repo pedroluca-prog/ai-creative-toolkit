@@ -27,15 +27,15 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(circle at 20% 30%, rgba(71,166,19,0.25) 0%, transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(71,166,19,0.18) 0%, transparent 40%);
+      radial-gradient(circle at 20% 30%, rgba({{accentRgb}},0.25) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba({{accentRgb}},0.18) 0%, transparent 40%);
     pointer-events: none;
   }
   .scrim {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(180deg, rgba(2,67,27,0.25) 0%, rgba(2,67,27,0.25) 50%, rgba(2,67,27,0.92) 100%);
+      linear-gradient(180deg, rgba({{bgDeepRgb}},0.25) 0%, rgba({{bgDeepRgb}},0.25) 50%, rgba({{bgDeepRgb}},0.92) 100%);
   }
   .band {
     position: absolute;

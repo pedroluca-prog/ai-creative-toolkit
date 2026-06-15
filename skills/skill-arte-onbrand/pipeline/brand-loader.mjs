@@ -28,21 +28,26 @@ export async function loadBrand(manualPath, { clienteDir } = {}) {
     logoPath,
     logoSymbolPath,
     fonts: {
-      display: tokens["font-display"] || "serif",
+      display: tokens["font-display"] || tokens["font-head"] || "serif",
       body: tokens["font"] || "sans-serif",
+      // Fonte de número/dado. Default = display p/ não alterar marcas legadas.
+      // Marcas que querem dado monoespaçado definem --font-data no manual.
+      data: tokens["font-data"] || tokens["font-display"] || tokens["font-head"] || "serif",
     },
     palette: {
-      bgDeep: tokens["g9"] || "#02431b",
-      bgDark: tokens["g7"] || "#0a5a28",
-      accent: tokens["g5"] || "#47a613",
-      accentLight: tokens["g4"] || "#5cb82a",
-      light: tokens["g1"] || "#d4ebc5",
-      cream: tokens["bg"] || "#F4EFE6",
-      surface: tokens["surface"] || "#FDFAF4",
-      text: tokens["text-1"] || "#1B1F14",
-      muted: tokens["text-3"] || "#8A7E70",
-      amber: tokens["amber"] || "#c8a84e",
-      red: tokens["red"] || "#C0483A",
+      // Ordem: token legado (g-scheme) -> token nativo (ink/amber) -> default verde.
+      // Marcas legadas (g1..g9) seguem idênticas; marcas novas usam nomes nativos.
+      bgDeep: tokens["g9"] || tokens["ink-1000"] || tokens["bg-deep"] || "#02431b",
+      bgDark: tokens["g7"] || tokens["ink-900"] || tokens["bg-dark"] || "#0a5a28",
+      accent: tokens["g5"] || tokens["amber-400"] || tokens["accent"] || "#47a613",
+      accentLight: tokens["g4"] || tokens["amber-300"] || tokens["accent-light"] || "#5cb82a",
+      light: tokens["g1"] || tokens["ink-50"] || tokens["light"] || "#d4ebc5",
+      cream: tokens["bg"] || tokens["ink-1000"] || "#F4EFE6",
+      surface: tokens["surface"] || tokens["ink-800"] || "#FDFAF4",
+      text: tokens["text-1"] || tokens["ink-50"] || "#1B1F14",
+      muted: tokens["text-3"] || tokens["ink-400"] || "#8A7E70",
+      amber: tokens["amber"] || tokens["amber-400"] || "#c8a84e",
+      red: tokens["red"] || tokens["signal-error-light"] || "#C0483A",
     },
   };
 }

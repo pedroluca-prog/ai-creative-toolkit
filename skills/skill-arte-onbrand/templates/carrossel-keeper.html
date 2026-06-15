@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--
+  carrossel-keeper — O SLIDE QUE VALE SALVAR (regra 4 das 6 regras de carrossel).
+  Deliberadamente distinto dos outros slides: card emoldurado em {{accent}} + badge
+  "SALVE ISTO" com ícone de marcador. Sinaliza ao leitor "guarda este".
+  Salvamento é o sinal que o algoritmo mais premia.
+
+  Dois modos (use UM):
+    A) Framework / checklist → passe items[] (cada item {titulo, texto} ou string).
+    B) Citação / frase-âncora → passe quote (+ attribution opcional).
+
+  Props:
+    eyebrow      — categoria curta uppercase (ex: "FRAMEWORK", "GUARDA ISSO")
+    title        — nome do framework / título do checklist / tema da citação
+    items        — array (modo A). Objeto {titulo, texto} rende a linha rica numerada.
+    quote        — frase citável (modo B). Use **negrito** pra destacar o miolo.
+    attribution  — autor/fonte da citação (modo B, opcional)
+    handle       — @ do Instagram no rodapé
+    pageNum / pageTotal — paginação
+  Sem backgroundImage: fundo enriquecido (gradient + símbolo) cobre. Só tokens de brand,
+  zero cor chumbada — renderiza on-brand de qualquer cliente trocando o manualPath.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{googleFontsLink}}
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; }
+  body {
+    font-family: {{fontBody}};
+    background-color: {{bgDeep}};
+    color: #fff;
+    padding: 70px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+  }
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 15% 12%, rgba({{accentRgb}},0.22) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 55% at 88% 90%, rgba({{accentRgb}},0.12) 0%, transparent 55%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .bg-symbol {
+    position: absolute;
+    right: -60px;
+    top: -50px;
+    width: 300px;
+    height: 300px;
+    background-image: url("{{logoSymbolPath}}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.22;
+    z-index: 1;
+    pointer-events: none;
+    transform: rotate(15deg);
+    filter: brightness(1.35);
+  }
+  /* Card emoldurado: a moldura accent é o sinal visual de "salve este slide". */
+  .keeper {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    border: 2px solid {{accent}};
+    border-radius: 28px;
+    background:
+      linear-gradient(160deg, rgba({{accentRgb}},0.10) 0%, rgba({{accentRgb}},0.02) 55%);
+    box-shadow: 0 0 0 1px rgba({{accentRgb}},0.25), 0 30px 70px rgba(0,0,0,0.35);
+    padding: 64px 60px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .badge {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: {{accent}};
+    color: {{bgDeep}};
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .badge svg { display: block; }
+  .eyebrow {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: {{accentLight}};
+  }
+  .title {
+    font-family: {{fontDisplay}};
+    font-size: 58px;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    color: #fff;
+    max-width: 880px;
+  }
+  .title strong { color: {{accentLight}}; }
+  /* Modo A — lista rica (itemsHtml: <ul class="list"><li class="list-item">…) */
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    list-style: none;
+    margin-top: 4px;
+  }
+  .list-item { display: flex; align-items: flex-start; gap: 22px; }
+  .list-marker {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    border-radius: 13px;
+    border: 1.5px solid {{accent}};
+    background: rgba({{accentRgb}},0.16);
+    font-family: {{fontDisplay}};
+    font-size: 28px;
+    color: {{accentLight}};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .list-text { display: flex; flex-direction: column; gap: 4px; padding-top: 2px; }
+  .list-title { font-size: 29px; font-weight: 500; line-height: 1.25; color: #fff; }
+  .list-title strong { color: {{accentLight}}; font-weight: 600; }
+  .list-body { font-size: 23px; font-weight: 300; line-height: 1.32; color: rgba(255,255,255,0.78); }
+  .list-body strong { color: {{accentLight}}; font-weight: 500; }
+  /* Modo B — citação */
+  .keeper-quote {
+    font-family: {{fontDisplay}};
+    font-size: 46px;
+    line-height: 1.2;
+    color: #fff;
+    margin-top: 6px;
+  }
+  .keeper-quote:empty { display: none; }
+  .keeper-quote strong { color: {{accentLight}}; }
+  .keeper-quote::before {
+    content: "\201C";
+    display: block;
+    font-size: 90px;
+    line-height: 0.6;
+    color: {{accent}};
+    margin-bottom: 8px;
+  }
+  .keeper-attr {
+    font-size: 24px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.72);
+  }
+  .keeper-attr:empty { display: none; }
+  .footer {
+    margin-top: auto;
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .handle { font-size: 18px; color: rgba(255,255,255,0.7); letter-spacing: 1px; }
+  .page-num { font-size: 16px; font-weight: 600; letter-spacing: 2px; color: rgba(255,255,255,0.7); }
+  .logo { height: 56px; opacity: 0.95; }
+</style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="bg-symbol"></div>
+  <div class="keeper">
+    <div class="badge">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="{{bgDeep}}" xmlns="http://www.w3.org/2000/svg"><path d="M6 2.5h12a1.5 1.5 0 0 1 1.5 1.5v17.2a.6.6 0 0 1-.92.5L12 18.6l-6.58 3.1a.6.6 0 0 1-.92-.5V4A1.5 1.5 0 0 1 6 2.5z"/></svg>
+      SALVE ISTO
+    </div>
+    <div class="eyebrow">{{eyebrow}}</div>
+    <div class="title">{{title}}</div>
+    {{itemsHtml}}
+    <div class="keeper-quote">{{quote}}</div>
+    <div class="keeper-attr">{{attribution}}</div>
+    <div class="footer">
+      <div class="handle">{{handle}}</div>
+      <div class="page-num">{{pageNum}} / {{pageTotal}}</div>
+      <img class="logo" src="{{logoPath}}" alt="">
+    </div>
+  </div>
+</body>
+</html>

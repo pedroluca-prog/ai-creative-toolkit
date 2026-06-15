@@ -23,15 +23,15 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 70% 60% at 12% 15%, rgba(71,166,19,0.18) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 55% at 90% 92%, rgba(71,166,19,0.10) 0%, transparent 55%);
+      radial-gradient(ellipse 70% 60% at 12% 15%, rgba({{accentRgb}},0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 55% at 90% 92%, rgba({{accentRgb}},0.10) 0%, transparent 55%);
     z-index: 0;
     pointer-events: none;
   }
   .bg-pattern {
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'><path d='M24 4 L24 14 M24 34 L24 44 M4 24 L14 24 M34 24 L44 24' stroke='%2347a613' stroke-width='0.8' stroke-linecap='round' opacity='0.6'/><circle cx='24' cy='24' r='0.9' fill='%2347a613' opacity='0.5'/></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'><path d='M24 4 L24 14 M24 34 L24 44 M4 24 L14 24 M34 24 L44 24' stroke='%23{{accentHex}}' stroke-width='0.8' stroke-linecap='round' opacity='0.6'/><circle cx='24' cy='24' r='0.9' fill='%23{{accentHex}}' opacity='0.5'/></svg>");
     background-size: 48px 48px;
     opacity: 0.12;
     z-index: 1;
@@ -92,7 +92,7 @@
     font-weight: 500;
   }
   .highlight {
-    font-family: {{fontDisplay}};
+    font-family: {{fontData}};
     font-size: 58px;
     line-height: 1.1;
     color: #fff;

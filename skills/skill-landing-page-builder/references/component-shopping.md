@@ -8,34 +8,33 @@ O teardown dá a estrutura. O component shopping substitui peças genéricas por
 
 **Regra:** aplicar em todas as seções, não só no hero. Cards chatos → cards com glass. CTA flat → CTA com animação. Footer padrão → footer com ticker.
 
----
-
-## 21st.dev — Componentes com Prompt Pronto
-
-**URL:** https://21st.dev
-
-Biblioteca de componentes UI com o diferencial de ter **prompts prontos para colar no Claude Code**. Cada componente tem um botão "Copy Prompt" que você cola direto na sessão.
-
-**O que tem:**
-- Navigation menus (hamburger, mega menu, mobile drawer)
-- Botões (com shimmer, com ícone animado, com loading state)
-- Cards (hover lift, glass morphism, border glow)
-- Carousels (scroll infinito, fade, ken burns)
-- Scroll areas (sticky column, parallax)
-- Hero sections (com vídeo, com partículas, com gradiente animado)
-- Pricing tables
-- Testimonial sliders
-- FAQ accordions
-
-**Como usar:**
-1. Navegar em 21st.dev → filtrar por categoria
-2. Escolher o componente
-3. Clicar "Copy Prompt"
-4. Colar no Claude: "Integre este componente na seção de [nome] da nossa LP. Adaptar: paleta → [cores brand], fonte → [fonte brand], conteúdo → [copy da seção]"
-
-**Importante:** os componentes do 21st.dev são em React/TypeScript. Para LP single-file HTML+Tailwind, pedir ao Claude para adaptar pra Vanilla JS + Tailwind classes.
+**Default obrigatório:** toda busca de componente começa em **https://21st.dev/community/components**. É a primeira parada de cada seção — não uma opção entre várias. Magic UI, Aceternity e CodePen entram só como fallback, quando o community não cobre.
 
 ---
+
+## 21st.dev /community — Ponto de Partida Obrigatório
+
+**URL:** https://21st.dev/community/components
+
+Galeria da comunidade do 21st.dev: componentes UI com **prompt pronto para colar no Claude Code** ("Copy Prompt") + o código-fonte. É o **default de toda seção** — antes de Magic UI, Aceternity ou CodePen, procurar aqui.
+
+**O que tem:** navigation/navbars · botões (shimmer, ícone animado, loading) · cards (hover lift, glass, border glow) · carousels · scroll areas (sticky, parallax) · hero sections (vídeo, partículas, gradiente) · pricing tables · testimonial sliders · FAQ accordions · footers.
+
+**Fluxo padrão (por seção):**
+1. **Abrir a galeria pela categoria da seção** — `https://21st.dev/community/components` e filtrar por hero, navbar, pricing, testimonial, FAQ… (ou usar a busca do site pela categoria).
+2. **Puxar a galeria com Firecrawl** quando precisar varrer/comparar opções sem sair do terminal: `mcp__claude_ai_Firecrawl__firecrawl_scrape` na URL da categoria → lista de componentes + links. Para um componente específico, scrapear a página dele e pegar o código/prompt.
+3. **Escolher** o que casa com a seção e pegar o "Copy Prompt" (ou o código do componente).
+4. **Integrar adaptando** — colar no Claude: "Integre este componente na seção [nome]. Adaptar: paleta → [cores brand], fonte → [fonte brand], conteúdo → [copy da seção]."
+
+**Adaptação obrigatória (React → single-file):** os componentes são React/TypeScript (shadcn-style). A LP aqui é HTML single-file + Tailwind CDN + Alpine. Sempre pedir ao Claude para converter de React/JSX para **Vanilla JS + classes Tailwind + Alpine** (estado/interatividade). Não colar JSX direto.
+
+**Quando o community não cobre:** descer para os fallbacks abaixo. Registrar no `aprendizados.md` qual seção precisou de fallback — alimenta o repertório.
+
+---
+
+---
+
+# Fallbacks — só quando o /community não cobre a seção
 
 ## Magic UI (magicui.design)
 
