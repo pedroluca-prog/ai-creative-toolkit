@@ -4,6 +4,8 @@
 
 Cada skill é um conjunto de instruções carregadas no Claude Code que define **como** produzir um tipo específico de entregável criativo — com padrões técnicos, fluxos testados e aprendizados de produção real.
 
+> Além das skills criativas, o repo inclui um **módulo de workflow de desenvolvimento** (Spec → Break → Plan → Execute) em [`dev-workflow/`](dev-workflow/) — pule para [essa seção](#módulo-dev-workflow-spec--break--plan--execute) se veio pelo lado dev.
+
 ---
 
 ## Skill Transversal: anti-ai-copy
@@ -45,6 +47,21 @@ Aplica antes de entregar qualquer copy. Tem prioridade sobre outras skills de te
 | `skill-landing-page-builder` | Construir LP HTML single-file pronta pra deploy | 7 fases: plan mode → anti-slop → moodboard → site teardown → hero autoral → micro-detalhes premium → QA |
 
 **Playbook:** `skill-landing-page-builder/references/playbook-7-niveis.md` — Os 7 Níveis de Front-End Design com Claude Code.
+
+---
+
+## Módulo Dev: Workflow Spec → Break → Plan → Execute
+
+Além das skills criativas, o repo carrega um **workflow agêntico de desenvolvimento** em [`dev-workflow/`](dev-workflow/) — um fluxo de 4 etapas (cada uma com um agente especializado) que estrutura mudanças de código não-triviais e evita o modo de falha clássico do código gerado por IA: implementar antes de entender.
+
+| Etapa | Comando | Agente |
+|---|---|---|
+| 1. Spec | `/spec-feature` | — (conversacional) |
+| 2. Break | `/break-spec` | `spec-breaker` |
+| 3. Plan | `/plan-issue` | `issue-planner` |
+| 4. Execute | `/execute-issue` | `component-writer` / `supabase-writer` |
+
+O estado de cada issue mora no próprio nome do arquivo (`[BRUTA]` → `[PLANEJADA]` → `[IMPLEMENTADA]`), então o fluxo é retomável e auditável. Diferente das skills, este módulo é **copy-in** (não faz parte do plugin): copia-se `.claude/agents/` e `.claude/commands/` para o repositório-alvo. Instruções completas em [`dev-workflow/README.md`](dev-workflow/README.md).
 
 ---
 
@@ -148,8 +165,19 @@ ai-creative-toolkit/
 │   └── image-prompt-generator/
 │       └── SKILL.md
 │
-└── scripts/
-    └── gen-image.sh
+├── scripts/
+│   └── gen-image.sh
+│
+└── dev-workflow/               ← módulo copy-in: workflow Spec→Break→Plan→Execute
+    ├── README.md
+    ├── CLAUDE.md               ← bootstrap para colar no repo-alvo
+    ├── architecture.example.md
+    ├── .claude/
+    │   ├── agents/             ← spec-breaker, issue-planner, component-writer, supabase-writer
+    │   └── commands/           ← spec-feature, break-spec, plan-issue, execute-issue
+    ├── directives/
+    │   └── workflow_dev.md
+    └── execution/              ← specs + issues materializadas (entra vazia)
 ```
 
 ---
