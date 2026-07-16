@@ -18,7 +18,15 @@ Aplica antes de entregar qualquer copy. Tem prioridade sobre outras skills de te
 
 ---
 
-## Os 3 Kits
+## Os 4 Kits
+
+### Kit Conteúdo Editorial (orquestrador de topo)
+
+| Skill / agentes | Quando usar | Como funciona |
+|-------|------------|---------------|
+| `skill-linha-editorial` + agentes `editorial-researcher`, `editorial-estrategista`, `card-arquiteto`, `copy-auditor` | Construir a linha editorial de QUALQUER cliente, achar pauta por newsjacking e produzir carrosséis estilo V4/G4 | Perfil parametrizável (`config/exemplos/<cliente>.md`) → linha editorial → newsjacking pontuado (score de 3 gates) → narrativa (GATE 1) → arquitetura de card via banco de 69 formatos decupados de campeões reais (GATE 2) → render on-brand (chama o Kit Imagens) → auditoria |
+
+**Instanciar em outro cliente:** copie `config/perfil-cliente.template.md` → `config/exemplos/<cliente>.md`, preencha, e peça *"faça uma linha editorial para \<cliente\>"* (ou `/linha-editorial <cliente>`). Nada de marca é hardcoded — tudo vem do perfil.
 
 ### Kit Vídeo
 
@@ -91,6 +99,7 @@ export ELEVENLABS_API_KEY="..."
 As skills ficam ativas quando o Claude Code detecta código ou contexto relevante. Para invocar manualmente:
 
 ```
+/skill skill-linha-editorial
 /skill skill-video-remotion
 /skill skill-edicao-anuncios-video
 /skill skill-arte-onbrand

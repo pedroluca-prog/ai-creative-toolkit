@@ -1,8 +1,8 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ai-creative-toolkit",
-  "version": "1.1.0",
-  "description": "Toolkit de criativos AI para marketing: arte on-brand com texto crítico PT-BR sem typos, edição de vídeo em 4 camadas, landing pages 7 níveis, prompts otimizados pra gpt-image-2 e régua anti-AI-copy.",
+  "version": "1.2.0",
+  "description": "Toolkit de criativos AI para marketing: motor de linha editorial + carrosséis de newsjacking (client-agnóstico, estilo V4/G4), arte on-brand com texto crítico PT-BR sem typos, edição de vídeo em 4 camadas, landing pages 7 níveis, prompts otimizados pra gpt-image-2 e régua anti-AI-copy.",
   "owner": {
     "name": "Pedro Luca",
     "url": "https://github.com/pedroluca-prog"
@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "ai-creative-toolkit",
-      "description": "6 skills + script gen-image.sh: skill-arte-onbrand (HTML→PNG zero typo), skill-edicao-anuncios-video (4 camadas), skill-landing-page-builder (7 níveis), image-prompt-generator (helper gpt-image-2), skill-video-remotion (motion programático), anti-ai-copy (régua transversal).",
+      "description": "7 skills + 4 agentes + gen-image.sh: skill-linha-editorial (motor de linha editorial + newsjacking client-agnóstico, orquestra os demais), skill-arte-onbrand (HTML→PNG zero typo), skill-edicao-anuncios-video (4 camadas), skill-landing-page-builder (7 níveis), image-prompt-generator (helper gpt-image-2), skill-video-remotion (motion programático), anti-ai-copy (régua transversal).",
       "source": "./",
       "category": "marketing"
     }

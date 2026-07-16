@@ -1,7 +1,7 @@
 {
   "name": "ai-creative-toolkit",
-  "version": "1.1.0",
-  "description": "Toolkit de criativos AI para marketing: arte on-brand com texto crítico PT-BR sem typos, edição de vídeo em 4 camadas, landing pages 7 níveis, prompts otimizados pra gpt-image-2 e régua anti-AI-copy.",
+  "version": "1.2.0",
+  "description": "Toolkit de criativos AI para marketing: motor de linha editorial + carrosséis de newsjacking (client-agnóstico, estilo V4/G4), arte on-brand com texto crítico PT-BR sem typos, edição de vídeo em 4 camadas, landing pages 7 níveis, prompts otimizados pra gpt-image-2 e régua anti-AI-copy.",
   "author": {
     "name": "Pedro Luca",
     "url": "https://github.com/pedroluca-prog"
@@ -9,6 +9,8 @@
   "keywords": [
     "marketing",
     "creative",
+    "editorial-line",
+    "newsjacking",
     "image-generation",
     "video-editing",
     "landing-page",
