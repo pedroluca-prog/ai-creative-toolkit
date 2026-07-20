@@ -25,6 +25,18 @@ O sistema de marca é constante em TODO card, sem exceção — e vem inteiro do
 
 ---
 
+### (a2) DISCIPLINA DE DIAGRAMAÇÃO — texto e imagem NÃO se sobrepõem (o erro que MAIS volta)
+
+A mídia ousada da alínea (c) só funciona com esta disciplina de **zonas**. Sem ela, o card degenera nos três defeitos recorrentes que já custaram retrabalho: **texto sobre rosto**, **parágrafo mal formatado (prosa flutuando)** e **espaço vazio sem elemento**. Régua visual: o contact-sheet de um carrossel-campeão editorial (ex.: o post "Walter White" do Recon) — abra antes de diagramar.
+
+1. **Texto SEMPRE numa zona limpa e sólida** (o token de fundo do perfil, chapado). **NUNCA sobre um rosto ou foto movimentada.** Prosa bem formatada, medida generosa, sem órfãs, 1 grifo accent. Única exceção = a **CAPA** (figura full-bleed + manchete no rodapé sobre gradiente, na área escura, jamais sobre o rosto).
+2. **A mídia é CONTIDA numa zona própria — não é o fundo do texto.** Foto vai DENTRO de uma **moldura com legenda**, OU vira **painel de dados desenhado** (tabela/ledger/mockup com linhas e total), OU lista/diagrama. Rostos entram em molduras/mockups. **Foto full-bleed atrás do texto é proibida (fora da capa).**
+3. **Zero espaço vazio:** uma zona = texto, a outra = moldura/painel (larga, preenchendo). Os **painéis de dados desenhados** são metade da riqueza — use-os nos cards de mecanismo (o furo, a brecha, a solução).
+
+Ou seja: as 2-4 camadas de mídia da alínea (c) se empilham **DENTRO** da zona de mídia (na moldura/painel/mockup), nunca **POR BAIXO** do texto.
+
+---
+
 ### (b) Repertório de Formatos
 
 Cada card do carrossel escolhe UM formato desta biblioteca (a capa tem o dela; **dois internos nunca repetem o mesmo formato dentro da mesma peça** — o teto de internos sem repetir é o próprio número de formatos do repertório, doze, não uma licença pra clonar). Uma linha de quando usar:

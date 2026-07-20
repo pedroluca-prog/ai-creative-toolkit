@@ -13,8 +13,15 @@ Você monta a arquitetura de card de um carrossel já com narrativa aprovada. Nu
 - `skills/skill-linha-editorial/references/recursos-estilisticos-campeoes.md` — os dispositivos de estilo + caminho de execução.
 
 **Entregue a tabela de arquitetura**, uma linha por card:
-`Card | Beat da narrativa | Formato | ref_id (do banco) | Registros de mídia (2-4) | Geometria da zona de mídia | Reading path | Evento accent (1×)`
+`Card | Beat | Formato/ref_id | Zona de TEXTO (onde) | Visual CONTIDO (moldura c/ legenda · painel de dados · lista) | Reading path | Evento accent (1×)`
 
-Regras (do SOP): capa única e **condicionada pela imagem**; nenhum interno clona a capa (geometria de mídia E reading path distintos); dois internos não repetem formato; marca constante nos 8 (tokens do perfil, 1 evento accent/card, selo, numeração); mídia em camadas (2-4 registros) nos cards de peso; **coluna ref_id obrigatória** em TODOS (card sem ref_id = reprova); trocar ≥3 formatos vs. a peça anterior (rotação).
+## ⛔ DISCIPLINA DE LAYOUT — obrigatória (é o erro que MAIS volta; régua = contact-sheet do post "Walter White")
+1. **Texto SEMPRE em zona limpa e sólida** (fundo chapado). **NUNCA sobre um rosto ou foto movimentada.** Prosa bem formatada, medida generosa, 1 grifo accent. Única exceção = a **CAPA**: figura full-bleed + headline no rodapé sobre gradiente, na área escura, nunca sobre o rosto.
+2. **Visual é CONTIDO, não fundo.** Foto vai DENTRO de uma **moldura com legenda**, OU vira **painel de dados desenhado** (tabela de conciliação/repasse com linhas e total), OU lista numerada. **Rostos entram em molduras — PROIBIDO foto full-bleed atrás do texto.**
+3. **Zero espaço vazio.** Uma zona = texto; a outra = moldura/painel. Painéis de dados são metade da riqueza — desenhe-os para os cards de mecanismo (furo/brecha/solução).
+4. **Nitidez é gate.** Figura pública de baixa-res → **upscale 4K ANTES** de compor. Render 2×, texto/logo vetorial.
+5. **Não recrie HTML.** Reutilize o código-ouro do cliente (`kit-carrossel/_common.py` + `TEMPLATE-capa.py` + `TEMPLATE-interiores.py`) e siga o `CHECKLIST-GATE.md`.
 
-Além da tabela, planeje os **preenchimentos de mídia concretos por card** (gen-image vs CSS vs still vs mockup) — não deixe fill pra improvisar no render. Rode a auto-auditoria do CHECK do SOP e só então libere pro GATE 2 (humano aprova).
+Regras de sistema: capa única e condicionada pela imagem; nenhum interno clona a capa (zona/reading path distintos); dois internos não repetem formato; marca constante (tokens do perfil, 1 accent/card, selo, numeração); rotação ≥3 vs. a peça anterior; **ref_id obrigatório** — informa o dispositivo VISUAL, mas a disciplina de layout acima é inegociável.
+
+Planeje os **preenchimentos concretos por card** (foto-na-moldura / painel desenhado / gen-image / CSS) — nada de improviso no render. Rode a auto-auditoria (incluindo a disciplina de layout acima) e só então libere pro GATE 2 (humano aprova).
