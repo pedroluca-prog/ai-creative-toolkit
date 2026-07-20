@@ -4,13 +4,16 @@
 
 ## O que é este toolkit
 
-3 kits de skills para produção criativa com Claude Code:
+4 kits de skills para produção criativa com Claude Code:
 
 | Kit | Skills | Trigger |
 |-----|--------|---------|
+| **Conteúdo Editorial** | `skill-linha-editorial` (+ agentes `editorial-researcher`, `editorial-estrategista`, `card-arquiteto`, `copy-auditor`) | "linha editorial", "pauta de conteúdo", "newsjacking", "carrossel estilo V4/G4", "faça uma linha editorial para \<cliente\>" |
 | **Vídeo** | `skill-video-remotion`, `skill-edicao-anuncios-video` | "vídeo programático", "motion graphics", "editar vídeo", "anúncio em vídeo" |
 | **Imagens** | `skill-arte-onbrand`, `image-prompt-generator` | "arte on-brand", "carrossel", "post com texto", "gerar imagem", "prompt de imagem" |
 | **Landing Page** | `skill-landing-page-builder` | "construir LP", "landing page", "HTML pronto", "site single-file" |
+
+O Kit **Conteúdo Editorial** é o orquestrador de topo: constrói a linha editorial de QUALQUER cliente a partir de um perfil parametrizável (`skill-linha-editorial/config/exemplos/<cliente>.md`), roda newsjacking, pontua pautas e produz os carrosséis — chamando o Kit Imagens (render), `anti-ai-copy` (texto) e o Kit Vídeo (card com vídeo) por baixo. Comando: `/linha-editorial <cliente> [linha|pautas|produz]`.
 
 ## Regra #1 — Primeira ação de TODA sessão
 
@@ -21,6 +24,18 @@
 5. Executar
 
 ## Regra #2 — Roteamento por trigger
+
+### Kit Conteúdo Editorial
+
+| Trigger | Skill / agente |
+|---------|----------------|
+| linha editorial, pauta, calendário editorial, newsjacking, "faça uma linha editorial para \<cliente\>", carrossel estilo V4/G4, banco de pautas | `skill-linha-editorial` (orquestra os agentes) |
+| varrer notícia quente por veia (Fase 2) | agente `editorial-researcher` (um por veia, paralelo) |
+| pontuar pautas / escrever headline V4 / linha editorial | agente `editorial-estrategista` |
+| mapear cards em ref_id do banco de formatos (ETAPA 2) | agente `card-arquiteto` |
+| caça anti-cacoete + auditoria de fidelidade | agente `copy-auditor` |
+
+> Sempre começa lendo `config/exemplos/<cliente>.md`. Sem perfil, roda a Fase 0 (instanciar do template) primeiro.
 
 ### Kit Vídeo
 
@@ -48,6 +63,7 @@
 - `skill-arte-onbrand` pode receber foto gerada por `gen-image.sh` como `backgroundImage`
 - `skill-landing-page-builder` (Fase 5) usa `image-prompt-generator` + `gen-image.sh` para hero autoral
 - `skill-edicao-anuncios-video` pode receber spec de `skill-roteiro-video` (skill externa, não neste repo)
+- `skill-linha-editorial` é o topo: chama `skill-arte-onbrand` (render dos cards), `anti-ai-copy` (todo texto), `image-prompt-generator`+`gen-image.sh` (fundos), e o Kit Vídeo (card com vídeo). Nunca hardcode marca — tudo vem de `config/exemplos/<cliente>.md`.
 
 ## Regra #4 — Texto anti-IA
 
